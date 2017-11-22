@@ -1,0 +1,74 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <ostream>
+#include <string>
+#include <stdlib.h>
+#include <stack>
+
+using namespace std;
+
+//func for finding the maximal element of a stack
+int maxElement(stack<int> one, stack<int> two){
+        int maxx = one.top();
+            while(!one.empty()){
+                two.push(one.top());
+                one.pop();
+                if(two.top() > maxx){
+                maxx = two.top();
+                }
+            }
+
+            while(!two.empty())
+            {
+                one.push(two.top());
+                two.pop();
+            }
+            return maxx;
+
+}
+
+
+
+int main(){
+
+    stack<int> st;
+    stack<int> maximal;
+
+
+    istringstream str("1 10\n2\n1 20\n2\n1 26\n1 20\n2\n3\n1 91\n3"); // tova e stringut s koito shte raboti programata
+
+    string line; //tova e promenliva za vseki red ot stringa
+    while (getline(str, line)) {
+        char *ptr; //this variable takes only the first character of a string line
+        ptr = &line.at(0);
+        //cout<<"First: "<<*ptr<<endl;
+
+        int numId = atoi(ptr); //converting char* ptr to int
+        //cout<<numId<<endl;
+
+        string someStr(ptr); //here taking the other content of the string
+
+        string needed = someStr.substr(1,someStr.length()-1); //kogato imame 1 da vzemem chisloto sled neq za da pushnem v steka
+        int content = atoi(needed.c_str()); //chisloto napraveno v int
+
+        if(numId == 1){
+            st.push(content);
+
+        }
+
+        if(numId == 2){
+            if(!st.empty()){
+                st.pop();
+            }
+        }
+        if(numId == 3){
+            cout<<maxElement(st,maximal)<<endl;
+        }
+
+    //cout<<st.size()<<endl;
+
+
+    }
+    return 0;
+}
